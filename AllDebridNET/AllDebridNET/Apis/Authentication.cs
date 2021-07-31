@@ -49,9 +49,6 @@ namespace AllDebridNET.Apis
         ///     A cancellation token that can be used by other objects or threads to receive notice of
         ///     cancellation.
         /// </param>
-        /// <returns>
-        ///     Information about the response of the user.
-        /// </returns>
         public async Task<PinCheck> CheckPin(String pinCheck, String pin, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<String, String>
