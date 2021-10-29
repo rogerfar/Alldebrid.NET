@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace AllDebridNET.Models
+namespace AllDebridNET
 {
     public class PinCheck
     {

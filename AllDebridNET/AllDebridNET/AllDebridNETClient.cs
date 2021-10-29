@@ -14,6 +14,8 @@ namespace AllDebridNET
 
         public AuthenticationApi Authentication { get; }
         public HostsApi Hosts { get; }
+        public LinksApi Links { get; }
+        public MagnetApi Magnet { get; }
         public UserApi User { get; }
 
         /// <summary>
@@ -46,6 +48,8 @@ namespace AllDebridNET
 
             Authentication = new AuthenticationApi(client, _store);
             Hosts = new HostsApi(client, _store);
+            Links = new LinksApi(client, _store);
+            Magnet = new MagnetApi(client, _store);
             User = new UserApi(client, _store);
         }
     }

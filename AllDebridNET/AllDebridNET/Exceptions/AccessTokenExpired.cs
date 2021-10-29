@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RDNET.Exceptions
+namespace RDNET
 {
     public class AccessTokenExpired : Exception
     {

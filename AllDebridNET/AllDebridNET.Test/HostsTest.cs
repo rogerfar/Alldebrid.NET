@@ -41,7 +41,7 @@ namespace AllDebridNET.Test
         {
             var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
 
-            var result = await client.Hosts.GetHostsForUser();
+            var result = await client.Hosts.GetHostsForUserAsync();
 
             Assert.True(result.HostList.Count > 50);
         }

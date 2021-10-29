@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
-using RDNET.Exceptions;
+using RDNET;
 
 namespace AllDebridNET.Apis
 {
@@ -108,6 +110,11 @@ namespace AllDebridNET.Apis
             }
         }
 
+        public async Task<String> GetRequestAsync(String url, Boolean requireAuthentication, IDictionary<String, String> parameters, CancellationToken cancellationToken)
+        {
+            return await Request(url, requireAuthentication, RequestType.Get, null, parameters, cancellationToken);
+        }
+
         public async Task<T> GetRequestAsync<T>(String url, Boolean requireAuthentication, IDictionary<String, String> parameters, CancellationToken cancellationToken)
             where T : class, new()
         {
@@ -127,17 +134,29 @@ namespace AllDebridNET.Apis
             return await Request<T>(url, requireAuthentication, RequestType.Post, content, null, cancellationToken);
         }
 
+        public async Task<T> PostFileRequestAsync<T>(String url, Byte[] file, Boolean requireAuthentication, CancellationToken cancellationToken)
+            where T : class, new()
+        {
+            using var multipartFormDataContent = new MultipartFormDataContent();
+            multipartFormDataContent.Headers.ContentType.MediaType = "multipart/form-data";
+
+            var fileContent = new StreamContent(new MemoryStream(file));
+            fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") 
+            { 
+                Name = "files[]",
+                FileName = "1.torrent"
+            };
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-bittorrent");
+
+            multipartFormDataContent.Add(fileContent);
+            
+            return await Request<T>(url, requireAuthentication, RequestType.Post, multipartFormDataContent, null, cancellationToken);
+        }
+
         public async Task PutRequestAsync(String url, Byte[] file, Boolean requireAuthentication, CancellationToken cancellationToken)
         {
             var content = new ByteArrayContent(file);
             await Request(url, requireAuthentication, RequestType.Put, content, null, cancellationToken);
-        }
-
-        public async Task<T> PutRequestAsync<T>(String url, Byte[] file, Boolean requireAuthentication, CancellationToken cancellationToken)
-            where T : class, new()
-        {
-            var content = new ByteArrayContent(file);
-            return await Request<T>(url, requireAuthentication, RequestType.Put, content, null, cancellationToken);
         }
 
         public async Task DeleteRequestAsync(String url, Boolean requireAuthentication, CancellationToken cancellationToken)

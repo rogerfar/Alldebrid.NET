@@ -15,7 +15,7 @@ namespace AllDebridNET
         public ResponseError Error { get;set; }
     }
 
-    internal class ResponseError
+    public class ResponseError
     {
         [JsonProperty("code")]
         public String Code { get;set; }

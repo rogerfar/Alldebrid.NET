@@ -68,7 +68,7 @@ namespace AllDebridNET.Apis
         ///     A cancellation token that can be used by other objects or threads to receive notice of
         ///     cancellation.
         /// </param>
-        public async Task<Hosts> GetHostsForUser(CancellationToken cancellationToken = default)
+        public async Task<Hosts> GetHostsForUserAsync(CancellationToken cancellationToken = default)
         {
             return await _requests.GetRequestAsync<Hosts>($"user/hosts", true, null, cancellationToken);
         }

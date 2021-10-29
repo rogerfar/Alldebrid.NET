@@ -11,7 +11,7 @@ namespace AllDebridNET.Test
         {
             var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
 
-            var result = await client.Authentication.GetPin();
+            var result = await client.Authentication.GetPinAsync();
 
             Assert.NotNull(result.Check);
         }
@@ -21,7 +21,7 @@ namespace AllDebridNET.Test
         {
             var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
 
-            var result = await client.Authentication.CheckPin("9b6809b96196363b56f3afc68a2ddb32537305c5", "BPW4");
+            var result = await client.Authentication.CheckPinAsync("9b6809b96196363b56f3afc68a2ddb32537305c5", "BPW4");
 
             Assert.NotNull(result.Apikey);
         }

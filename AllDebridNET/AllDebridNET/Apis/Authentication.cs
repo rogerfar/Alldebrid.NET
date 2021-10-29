@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using AllDebridNET.Models;
 
 namespace AllDebridNET.Apis
 {
@@ -28,7 +27,7 @@ namespace AllDebridNET.Apis
         /// <returns>
         ///     Redirect the user to the resulting "BaseUrl" or "UserUrl" then use CheckPin to verify if the user completed entering the pin.
         /// </returns>
-        public async Task<PinRequest> GetPin(CancellationToken cancellationToken = default)
+        public async Task<PinRequest> GetPinAsync(CancellationToken cancellationToken = default)
         {
             return  await _requests.GetRequestAsync<PinRequest>("pin/get", false, null, cancellationToken);
         }
@@ -49,7 +48,7 @@ namespace AllDebridNET.Apis
         ///     A cancellation token that can be used by other objects or threads to receive notice of
         ///     cancellation.
         /// </param>
-        public async Task<PinCheck> CheckPin(String pinCheck, String pin, CancellationToken cancellationToken = default)
+        public async Task<PinCheck> CheckPinAsync(String pinCheck, String pin, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<String, String>
             {
