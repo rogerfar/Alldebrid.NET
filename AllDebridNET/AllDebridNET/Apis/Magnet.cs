@@ -79,11 +79,11 @@ namespace AllDebridNET.Apis
         /// <returns>
         ///     List of Magnet
         /// </returns>
-        public async Task<IList<Magnet>> StatusAsync(String id, CancellationToken cancellationToken = default)
+        public async Task<Magnet> StatusAsync(String id, CancellationToken cancellationToken = default)
         {
             var result = await _requests.GetRequestAsync<MagnetStatusResponse>("magnet/status", true, null, cancellationToken);
 
-            return result.Magnets;
+            return result.Magnets.FirstOrDefault();
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace AllDebridNET.Apis
         /// <param name="magnetId">Magnet ID.</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task DeleteAsyc(String magnetId, CancellationToken cancellationToken = default)
+        public async Task DeleteAsync(String magnetId, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<String, String>
             {
