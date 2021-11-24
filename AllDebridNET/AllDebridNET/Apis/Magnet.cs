@@ -52,7 +52,7 @@ namespace AllDebridNET.Apis
         {
             var result = await _requests.PostFileRequestAsync<MagnetUploadResponse>("magnet/upload/file", file, true, cancellationToken);
 
-            return result?.Magnets?.FirstOrDefault();
+            return result?.Files?.FirstOrDefault();
         }
 
         /// <summary>

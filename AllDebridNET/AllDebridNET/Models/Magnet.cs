@@ -135,16 +135,34 @@ namespace AllDebridNET
 
     public class File
     {
-        /// <summary>
-        ///     Name of file or directory. When Files is set, it's directory.
-        /// </summary>
         [JsonProperty("n")]
-        public String Name { get; set; }
+        public String N { get; set; }
 
-        /// <summary>
-        ///     List of files in the directory.
-        /// </summary>
-        [JsonProperty("e")]
-        public List<File> Files { get; set; }
+        [JsonProperty("e", NullValueHandling = NullValueHandling.Ignore)]
+        public FileEUnion? E { get; set; }
+    }
+
+    public class FileE1
+    {
+        [JsonProperty("n")]
+        public String N { get; set; }
+
+        [JsonProperty("e", NullValueHandling = NullValueHandling.Ignore)]
+        public List<FileE2> E { get; set; }
+    }
+
+    public class FileE2
+    {
+        [JsonProperty("n")]
+        public String N { get; set; }
+    }
+
+    public struct FileEUnion
+    {
+        public FileE1 FileE1;
+        public List<FileE1> PurpleEArray;
+
+        public static implicit operator FileEUnion(FileE1 fileE1) => new FileEUnion { FileE1 = fileE1 };
+        public static implicit operator FileEUnion(List<FileE1> PurpleEArray) => new FileEUnion { PurpleEArray = PurpleEArray };
     }
 }

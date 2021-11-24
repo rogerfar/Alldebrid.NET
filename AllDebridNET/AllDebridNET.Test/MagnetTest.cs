@@ -54,7 +54,7 @@ namespace AllDebridNET.Test
         {
             var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
 
-            await client.Magnet.DeleteAsyc("123233471");
+            await client.Magnet.DeleteAsync("123233471");
         }
 
         [Fact]

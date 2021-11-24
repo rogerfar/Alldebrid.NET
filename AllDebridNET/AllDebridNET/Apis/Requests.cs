@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -9,7 +10,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using AllDebridNET.Converters;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using RDNET;
 
 namespace AllDebridNET.Apis
@@ -18,6 +21,17 @@ namespace AllDebridNET.Apis
     {
         private readonly HttpClient _httpClient;
         private readonly Store _store;
+
+        public static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
+        {
+            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
+            DateParseHandling = DateParseHandling.None,
+            Converters =
+            {
+                new FileEUnionConverter(),
+                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
+            },
+        };
 
         public Requests(HttpClient httpClient, Store store)
         {
@@ -85,7 +99,7 @@ namespace AllDebridNET.Apis
 
             try
             {
-                var result = JsonConvert.DeserializeObject<Response<T>>(requestResult);
+                var result = JsonConvert.DeserializeObject<Response<T>>(requestResult, JsonSerializerSettings);
 
                 if (result == null)
                 {
