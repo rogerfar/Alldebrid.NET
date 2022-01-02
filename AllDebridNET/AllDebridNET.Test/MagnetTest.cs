@@ -46,7 +46,7 @@ namespace AllDebridNET.Test
         {
             var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
 
-            var result = await client.Magnet.StatusAsync("123233471");
+            var result = await client.Magnet.StatusAsync("130908408");
         }
 
         [Fact]

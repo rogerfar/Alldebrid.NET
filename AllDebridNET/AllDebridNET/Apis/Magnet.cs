@@ -64,7 +64,7 @@ namespace AllDebridNET.Apis
         /// </returns>
         public async Task<IList<Magnet>> StatusAllAsync(CancellationToken cancellationToken = default)
         {
-            var result = await _requests.GetRequestAsync<MagnetStatusResponse>("magnet/status", true, null, cancellationToken);
+            var result = await _requests.GetRequestAsync<MagnetsStatusResponse>("magnet/status", true, null, cancellationToken);
 
             return result.Magnets;
         }
@@ -72,18 +72,25 @@ namespace AllDebridNET.Apis
         /// <summary>
         ///     Get the status of current magnets.
         /// </summary>
-        /// <param name="id">
+        /// <param name="magnetId">
         ///     Magnet ID.
         /// </param>
         /// <param name="cancellationToken"></param>
         /// <returns>
         ///     List of Magnet
         /// </returns>
-        public async Task<Magnet> StatusAsync(String id, CancellationToken cancellationToken = default)
+        public async Task<Magnet> StatusAsync(String magnetId, CancellationToken cancellationToken = default)
         {
-            var result = await _requests.GetRequestAsync<MagnetStatusResponse>("magnet/status", true, null, cancellationToken);
+            var parameters = new Dictionary<String, String>
+            {
+                {
+                    "id", magnetId
+                }
+            };
 
-            return result.Magnets.FirstOrDefault();
+            var result = await _requests.GetRequestAsync<MagnetStatusResponse>("magnet/status", true, parameters, cancellationToken);
+
+            return result.Magnets;
         }
 
         /// <summary>
