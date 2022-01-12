@@ -78,6 +78,6 @@ namespace AllDebridNET
         public Uri Link { get; set; }
 
         [JsonProperty("id")]
-        public Int64 Id { get; set; }
+        public String Id { get; set; }
     }
 }
