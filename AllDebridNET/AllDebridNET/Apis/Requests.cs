@@ -118,29 +118,18 @@ namespace AllDebridNET.Apis
 
                 return result.Data;
             }
-            catch (JsonSerializationException ex)
+            catch (Exception ex)
             {
-                throw new JsonSerializationException($"Unable to deserialize AllDebrid API response to {typeof(T).Name}. Response was: {requestResult}", ex);
+                throw new Exception($"Unable to deserialize AllDebrid API response to {typeof(T).Name}. Response was: {requestResult}", ex);
             }
         }
-
-        public async Task<String> GetRequestAsync(String url, Boolean requireAuthentication, IDictionary<String, String> parameters, CancellationToken cancellationToken)
-        {
-            return await Request(url, requireAuthentication, RequestType.Get, null, parameters, cancellationToken);
-        }
-
+        
         public async Task<T> GetRequestAsync<T>(String url, Boolean requireAuthentication, IDictionary<String, String> parameters, CancellationToken cancellationToken)
             where T : class, new()
         {
             return await Request<T>(url, requireAuthentication, RequestType.Get, null, parameters, cancellationToken);
         }
-
-        public async Task PostRequestAsync(String url, IEnumerable<KeyValuePair<String, String>> data, Boolean requireAuthentication, CancellationToken cancellationToken)
-        {
-            var content = data != null ? new FormUrlEncodedContent(data) : null;
-            await Request(url, requireAuthentication, RequestType.Post, content, null, cancellationToken);
-        }
-
+        
         public async Task<T> PostRequestAsync<T>(String url, IEnumerable<KeyValuePair<String, String>> data, Boolean requireAuthentication, CancellationToken cancellationToken)
             where T : class, new()
         {
@@ -166,18 +155,7 @@ namespace AllDebridNET.Apis
             
             return await Request<T>(url, requireAuthentication, RequestType.Post, multipartFormDataContent, null, cancellationToken);
         }
-
-        public async Task PutRequestAsync(String url, Byte[] file, Boolean requireAuthentication, CancellationToken cancellationToken)
-        {
-            var content = new ByteArrayContent(file);
-            await Request(url, requireAuthentication, RequestType.Put, content, null, cancellationToken);
-        }
-
-        public async Task DeleteRequestAsync(String url, Boolean requireAuthentication, CancellationToken cancellationToken)
-        {
-            await Request(url, requireAuthentication, RequestType.Delete, null, null, cancellationToken);
-        }
-
+        
         private enum RequestType
         {
             Get,
