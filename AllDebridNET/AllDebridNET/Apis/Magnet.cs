@@ -35,7 +35,39 @@ namespace AllDebridNET.Apis
 
             var result = await _requests.PostRequestAsync<MagnetUploadResponse>("magnet/upload", data, true, cancellationToken);
 
-            return result?.Magnets?.FirstOrDefault();
+            var magnetResult = result?.Magnets?.FirstOrDefault();
+
+            if (magnetResult == null)
+            {
+                return null;
+            }
+
+            if (magnetResult.Id == null || magnetResult.Id == 0)
+            {
+                var retry = 0;
+                while (true)
+                {
+                    var allStatus = await StatusAllAsync(cancellationToken);
+                    var statusResult = allStatus.FirstOrDefault(m => m.Hash == magnetResult.Hash);
+
+                    if (statusResult != null)
+                    {
+                        magnetResult.Id = statusResult.Id;
+                        return magnetResult;
+                    }
+
+                    if (retry == 10)
+                    {
+                        throw new Exception("Unable to find ID for magnet");
+                    }
+
+                    retry++;
+
+                    await Task.Delay(1000, cancellationToken);
+                }
+            }
+
+            return magnetResult;
         }
 
         /// <summary>
@@ -52,7 +84,39 @@ namespace AllDebridNET.Apis
         {
             var result = await _requests.PostFileRequestAsync<MagnetUploadResponse>("magnet/upload/file", file, true, cancellationToken);
 
-            return result?.Files?.FirstOrDefault();
+            var fileResult = result?.Files?.FirstOrDefault();
+
+            if (fileResult == null)
+            {
+                return null;
+            }
+
+            if (fileResult.Id == null || fileResult.Id == 0)
+            {
+                var retry = 0;
+                while (true)
+                {
+                    var allStatus = await StatusAllAsync(cancellationToken);
+                    var statusResult = allStatus.FirstOrDefault(m => m.Hash == fileResult.Hash);
+
+                    if (statusResult != null)
+                    {
+                        fileResult.Id = statusResult.Id;
+                        return fileResult;
+                    }
+
+                    if (retry == 10)
+                    {
+                        throw new Exception("Unable to find ID for magnet");
+                    }
+
+                    retry++;
+
+                    await Task.Delay(1000, cancellationToken);
+                }
+            }
+
+            return fileResult;
         }
 
         /// <summary>

@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29926.136
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllDebridNET", "AllDebridNET\AllDebridNET.csproj", "{E2CCDBA7-26FD-4175-B639-EB29EF13E9D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RDNET.Test", "AllDebridNET.Test\RDNET.Test.csproj", "{B6A0F4E5-B383-4C17-B834-26A24D6B0746}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllDebridNET.Test", "AllDebridNET.Test\AllDebridNET.Test.csproj", "{B6A0F4E5-B383-4C17-B834-26A24D6B0746}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
