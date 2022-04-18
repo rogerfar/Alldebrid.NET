@@ -1,8 +1,7 @@
 ﻿using System;
 
-namespace RDNET
+namespace RDNET;
+
+public class AccessTokenExpired : Exception
 {
-    public class AccessTokenExpired : Exception
-    {
-    }
 }

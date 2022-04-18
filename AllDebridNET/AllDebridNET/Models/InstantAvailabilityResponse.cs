@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AllDebridNET
-{
-    internal class InstantAvailabilityResponse
-    {
-        public List<InstantAvailabilityResponseMagnet> Magnets { get; set; }
-    }
+namespace AllDebridNET;
 
-    internal class InstantAvailabilityResponseMagnet
-    {
-        public String Magnet { get; set; }
-        public String Hash { get; set; }
-        public Boolean Instant { get; set; }
-    }
+internal class InstantAvailabilityResponse
+{
+    public List<InstantAvailabilityResponseMagnet> Magnets { get; set; }
+}
+
+internal class InstantAvailabilityResponseMagnet
+{
+    public String Magnet { get; set; }
+    public String Hash { get; set; }
+    public Boolean Instant { get; set; }
 }

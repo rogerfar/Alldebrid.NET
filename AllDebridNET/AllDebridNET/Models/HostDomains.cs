@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace AllDebridNET
+namespace AllDebridNET;
+
+public class HostDomains
 {
-    public class HostDomains
-    {
-        [JsonProperty("hosts")]
-        public List<String> Hosts { get; set; }
+    [JsonProperty("hosts")]
+    public List<String> Hosts { get; set; }
 
-        [JsonProperty("streams")]
-        public List<String> Streams { get; set; }
+    [JsonProperty("streams")]
+    public List<String> Streams { get; set; }
 
-        [JsonProperty("redirectors")]
-        public List<String> Redirectors { get; set; }
-    }
+    [JsonProperty("redirectors")]
+    public List<String> Redirectors { get; set; }
 }

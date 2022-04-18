@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace AllDebridNET
+namespace AllDebridNET;
+
+public class LinksInformationsResponse
 {
-    public class LinksInformationsResponse
-    {
-        [JsonProperty("infos")]
-        public IList<LinkInfo> Infos { get; set; }
-    }
+    [JsonProperty("infos")]
+    public IList<LinkInfo> Infos { get; set; }
 }

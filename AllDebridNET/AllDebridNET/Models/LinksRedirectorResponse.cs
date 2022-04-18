@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace AllDebridNET
+namespace AllDebridNET;
+
+public class LinksRedirectorResponse
 {
-    public class LinksRedirectorResponse
-    {
-        [JsonProperty("links")]
-        public IList<String> Links { get; set; }
-    }
+    [JsonProperty("links")]
+    public IList<String> Links { get; set; }
 }

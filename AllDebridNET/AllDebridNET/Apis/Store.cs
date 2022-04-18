@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace AllDebridNET.Apis
+namespace AllDebridNET.Apis;
+
+internal class Store
 {
-    internal class Store
-    {
-        public String ApiUrl = "http://api.alldebrid.com/v4/";
+    public String ApiUrl = "http://api.alldebrid.com/v4/";
         
-        public String Agent { get; set; }
-        public String ApiKey { get; set; }
-    }
+    public String Agent { get; set; }
+    public String ApiKey { get; set; }
 }

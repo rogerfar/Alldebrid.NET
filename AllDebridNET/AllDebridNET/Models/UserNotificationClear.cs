@@ -1,11 +1,10 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace AllDebridNET
+namespace AllDebridNET;
+
+public class UserNotificationClear
 {
-    public class UserNotificationClear
-    {
-        [JsonProperty("message")]
-        public String Message { get; set; }
-    }
+    [JsonProperty("message")]
+    public String Message { get; set; }
 }

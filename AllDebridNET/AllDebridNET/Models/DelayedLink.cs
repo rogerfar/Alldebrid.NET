@@ -1,17 +1,16 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace AllDebridNET
+namespace AllDebridNET;
+
+public class DelayedLink
 {
-    public class DelayedLink
-    {
-        [JsonProperty("status")]
-        public Int64 Status { get; set; }
+    [JsonProperty("status")]
+    public Int64 Status { get; set; }
 
-        [JsonProperty("time_left")]
-        public Int64 TimeLeft { get; set; }
+    [JsonProperty("time_left")]
+    public Int64 TimeLeft { get; set; }
 
-        [JsonProperty("link")]
-        public String Link { get; set; }
-    }
+    [JsonProperty("link")]
+    public String Link { get; set; }
 }

@@ -13,7 +13,7 @@ namespace AllDebridNET.Test
 
             var result = await client.User.GetAsync();
 
-            Assert.True(result.Email.Contains("@"));
+            Assert.Contains(result.Email, "@");
         }
 
         [Fact]

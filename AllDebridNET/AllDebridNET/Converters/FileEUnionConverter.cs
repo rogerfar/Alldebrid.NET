@@ -2,57 +2,56 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace AllDebridNET.Converters
+namespace AllDebridNET.Converters;
+
+public class FileEUnionConverter : JsonConverter
 {
-    public class FileEUnionConverter : JsonConverter
+    public override Boolean CanConvert(Type t)
     {
-        public override Boolean CanConvert(Type t)
+        return t == typeof(FileEUnion) || t == typeof(FileEUnion?);
+    }
+
+    public override Object ReadJson(JsonReader reader, Type t, Object existingValue, JsonSerializer serializer)
+    {
+        switch (reader.TokenType)
         {
-            return t == typeof(FileEUnion) || t == typeof(FileEUnion?);
+            case JsonToken.StartObject:
+                var objectValue = serializer.Deserialize<FileE1>(reader);
+
+                return new FileEUnion
+                {
+                    FileE1 = objectValue
+                };
+            case JsonToken.StartArray:
+                var arrayValue = serializer.Deserialize<List<FileE1>>(reader);
+
+                return new FileEUnion
+                {
+                    PurpleEArray = arrayValue
+                };
         }
 
-        public override Object ReadJson(JsonReader reader, Type t, Object existingValue, JsonSerializer serializer)
+        throw new Exception("Cannot unmarshal type EUnion");
+    }
+
+    public override void WriteJson(JsonWriter writer, Object untypedValue, JsonSerializer serializer)
+    {
+        var value = (FileEUnion)untypedValue;
+
+        if (value.PurpleEArray != null)
         {
-            switch (reader.TokenType)
-            {
-                case JsonToken.StartObject:
-                    var objectValue = serializer.Deserialize<FileE1>(reader);
+            serializer.Serialize(writer, value.PurpleEArray);
 
-                    return new FileEUnion
-                    {
-                        FileE1 = objectValue
-                    };
-                case JsonToken.StartArray:
-                    var arrayValue = serializer.Deserialize<List<FileE1>>(reader);
-
-                    return new FileEUnion
-                    {
-                        PurpleEArray = arrayValue
-                    };
-            }
-
-            throw new Exception("Cannot unmarshal type EUnion");
+            return;
         }
 
-        public override void WriteJson(JsonWriter writer, Object untypedValue, JsonSerializer serializer)
+        if (value.FileE1 != null)
         {
-            var value = (FileEUnion)untypedValue;
+            serializer.Serialize(writer, value.FileE1);
 
-            if (value.PurpleEArray != null)
-            {
-                serializer.Serialize(writer, value.PurpleEArray);
-
-                return;
-            }
-
-            if (value.FileE1 != null)
-            {
-                serializer.Serialize(writer, value.FileE1);
-
-                return;
-            }
-
-            throw new Exception("Cannot marshal type EUnion");
+            return;
         }
+
+        throw new Exception("Cannot marshal type EUnion");
     }
 }
