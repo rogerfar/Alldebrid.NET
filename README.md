@@ -16,6 +16,25 @@ Pass in the Agent name you wish to use for your application. This can be any mea
 
 Pass in the Api Key for the user. If you don't have an API key yet, you can leave this blank and use Pin authentication.
 
+The method naming followings the API documentation closely:
+```csharp
+var client = new AllDebridNETClient("agent name", "api key");
+
+// https://docs.alldebrid.com/#magnet
+var result = await client.Magnet.UploadMagnetAsync(magnet);
+```
+
+The following API calls are available:
+```csharp
+var client = new AllDebridNETClient("agent name", "api key");
+
+client.Authentication.
+client.Hosts.
+client.Links.
+client.Magnet.
+client.User.
+```
+
 ## Authentication
 
 Each user has its own API key, which can be found here: <https://alldebrid.com/apikeys>.

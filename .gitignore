@@ -1,6 +1,6 @@
-AllDebridNET/.vs
+.vs
 **/bin
 **/obj
-AllDebridNET/AllDebridNET.Test/secret.txt
-AllDebridNET/publish.bat
-AllDebridNET/AllDebridNET.sln.DotSettings.user
+AllDebridNET.Test/secret.txt
+publish.bat
+AllDebridNET.sln.DotSettings.user
