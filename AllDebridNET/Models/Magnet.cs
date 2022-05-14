@@ -14,7 +14,7 @@ public class Magnet
     ///     Magnet filename.
     /// </summary>
     [JsonProperty("filename")]
-    public String? Filename { get; set; }
+    public String Filename { get; set; } = null!;
 
     /// <summary>
     ///     Magnet filesize.
@@ -23,13 +23,13 @@ public class Magnet
     public Int64 Size { get; set; }
 
     [JsonProperty("hash")]
-    public String? Hash { get; set; }
+    public String Hash { get; set; } = null!;
 
     /// <summary>
     ///     Status in plain English.
     /// </summary>
     [JsonProperty("status")]
-    public String? Status { get; set; }
+    public String Status { get; set; } = null!;
 
     /// <summary>
     ///     Status code.
@@ -95,7 +95,7 @@ public class Magnet
     public Int64 CompletionDate { get; set; }
 
     [JsonProperty("links")]
-    public List<Link>? Links { get; set; }
+    public List<Link> Links { get; set; } = new();
 
     [JsonProperty("type")]
     public String? Type { get; set; }
@@ -113,13 +113,13 @@ public class Link
     ///     Download link.
     /// </summary>
     [JsonProperty("link")]
-    public String? LinkUrl { get; set; }
+    public String LinkUrl { get; set; } = null!;
 
     /// <summary>
     ///     File name
     /// </summary>
     [JsonProperty("filename")]
-    public String? Filename { get; set; }
+    public String Filename { get; set; } = null!;
 
     /// <summary>
     ///     File size.
@@ -128,13 +128,13 @@ public class Link
     public Int64 Size { get; set; }
 
     [JsonProperty("files")]
-    public List<File>? Files { get; set; }
+    public List<File> Files { get; set; } = new();
 }
 
 public class File
 {
     [JsonProperty("n")]
-    public String? N { get; set; }
+    public String N { get; set; } = null!;
 
     [JsonProperty("e", NullValueHandling = NullValueHandling.Ignore)]
     public FileEUnion? E { get; set; }
@@ -143,7 +143,7 @@ public class File
 public class FileE1
 {
     [JsonProperty("n")]
-    public String? N { get; set; }
+    public String N { get; set; } = null!;
 
     [JsonProperty("e", NullValueHandling = NullValueHandling.Ignore)]
     public List<FileE2>? E { get; set; }
@@ -152,7 +152,7 @@ public class FileE1
 public class FileE2
 {
     [JsonProperty("n")]
-    public String? N { get; set; }
+    public String N { get; set; } = null!;
 }
 
 public struct FileEUnion
