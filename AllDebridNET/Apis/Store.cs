@@ -2,8 +2,8 @@
 
 internal class Store
 {
-    public String ApiUrl = "http://api.alldebrid.com/v4/";
-        
+    public const String API_URL = "https://api.alldebrid.com/v4/";
+
     public String? Agent { get; set; }
     public String? ApiKey { get; set; }
 }

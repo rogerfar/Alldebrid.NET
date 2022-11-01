@@ -39,7 +39,7 @@ internal class Requests
                                         IDictionary<String, String>? parameters,
                                         CancellationToken cancellationToken)
     {
-        url = $"{_store.ApiUrl}{url}?agent={HttpUtility.UrlEncode(_store.Agent)}";
+        url = $"{Store.API_URL}{url}?agent={HttpUtility.UrlEncode(_store.Agent)}";
 
         if (parameters is {Count: > 0})
         {
