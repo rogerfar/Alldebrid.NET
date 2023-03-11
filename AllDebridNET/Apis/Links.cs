@@ -1,6 +1,4 @@
-﻿using AllDebridNET.Models;
-
-namespace AllDebridNET.Apis;
+﻿namespace AllDebridNET;
 
 public class LinksApi
 {

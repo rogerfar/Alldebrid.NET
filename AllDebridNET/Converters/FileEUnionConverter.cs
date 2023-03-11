@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AllDebridNET.Converters;
+namespace AllDebridNET;
 
 public class FileEUnionConverter : JsonConverter
 {

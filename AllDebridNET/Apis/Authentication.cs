@@ -1,4 +1,4 @@
-﻿namespace AllDebridNET.Apis;
+﻿namespace AllDebridNET;
 
 public class AuthenticationApi
 {

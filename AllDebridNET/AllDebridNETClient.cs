@@ -1,6 +1,4 @@
-﻿using AllDebridNET.Apis;
-
-namespace AllDebridNET;
+﻿namespace AllDebridNET;
 
 /// <summary>
 ///     The AllDebridNET consumed the alldebrid.com API.

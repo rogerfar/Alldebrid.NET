@@ -1,4 +1,4 @@
-﻿namespace AllDebridNET.Apis;
+﻿namespace AllDebridNET;
 
 internal class Store
 {

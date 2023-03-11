@@ -3,11 +3,10 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Web;
-using AllDebridNET.Converters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace AllDebridNET.Apis;
+namespace AllDebridNET;
 
 internal class Requests
 {

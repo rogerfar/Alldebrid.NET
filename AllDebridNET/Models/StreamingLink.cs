@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AllDebridNET.Models;
+namespace AllDebridNET;
 
 public class StreamingLink
 {
