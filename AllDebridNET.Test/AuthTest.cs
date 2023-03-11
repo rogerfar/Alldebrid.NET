@@ -1,29 +1,27 @@
 ﻿using System.Threading.Tasks;
-using RDNET.Test;
 using Xunit;
 
-namespace AllDebridNET.Test
+namespace AllDebridNET.Test;
+
+public class AuthTest
 {
-    public class AuthTest
+    [Fact]
+    public async Task GetPin()
     {
-        [Fact]
-        public async Task GetPin()
-        {
-            var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
+        var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
 
-            var result = await client.Authentication.GetPinAsync();
+        var result = await client.Authentication.GetPinAsync();
 
-            Assert.NotNull(result.Check);
-        }
+        Assert.NotNull(result.Check);
+    }
 
-        [Fact]
-        public async Task CheckPin()
-        {
-            var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
+    [Fact]
+    public async Task CheckPin()
+    {
+        var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
 
-            var result = await client.Authentication.CheckPinAsync("9b6809b96196363b56f3afc68a2ddb32537305c5", "BPW4");
+        var result = await client.Authentication.CheckPinAsync("9b6809b96196363b56f3afc68a2ddb32537305c5", "BPW4");
 
-            Assert.NotNull(result.Apikey);
-        }
+        Assert.NotNull(result.Apikey);
     }
 }

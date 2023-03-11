@@ -1,4 +1,4 @@
-﻿namespace RDNET;
+﻿namespace AllDebridNET;
 
 public class AllDebridException : Exception
 {

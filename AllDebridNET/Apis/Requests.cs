@@ -6,7 +6,6 @@ using System.Web;
 using AllDebridNET.Converters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using RDNET;
 
 namespace AllDebridNET.Apis;
 

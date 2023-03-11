@@ -1,29 +1,27 @@
 ﻿using System.Threading.Tasks;
-using RDNET.Test;
 using Xunit;
 
-namespace AllDebridNET.Test
+namespace AllDebridNET.Test;
+
+public class UsersTest
 {
-    public class UsersTest
+    [Fact]
+    public async Task GetUser()
     {
-        [Fact]
-        public async Task GetUser()
-        {
-            var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
+        var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
 
-            var result = await client.User.GetAsync();
+        var result = await client.User.GetAsync();
 
-            Assert.Contains(result.Email, "@");
-        }
+        Assert.Contains(result.Email, "@");
+    }
 
-        [Fact]
-        public async Task ClearNotifications()
-        {
-            var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
+    [Fact]
+    public async Task ClearNotifications()
+    {
+        var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
 
-            var result = await client.User.ClearNotificationsAsync("NOTIF_CODE");
+        var result = await client.User.ClearNotificationsAsync("NOTIF_CODE");
 
-            Assert.Equal("Notification was cleared", result.Message);
-        }
+        Assert.Equal("Notification was cleared", result.Message);
     }
 }

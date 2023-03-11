@@ -1,10 +1,8 @@
 ﻿using System;
-using System.IO;
 
-namespace RDNET.Test
+namespace AllDebridNET.Test;
+
+public static class Setup
 {
-    public static class Setup
-    {
-        public static String ApiKey => File.ReadAllText(@"C:\Projects\Alldebrid.NET\AllDebridNET.Test\secret.txt");
-    }
+    public static String ApiKey => System.IO.File.ReadAllText(@"C:\Projects\Alldebrid.NET\AllDebridNET.Test\secret.txt");
 }
