@@ -6,7 +6,7 @@ public class LinksApi
 
     internal LinksApi(HttpClient httpClient, Store store)
     {
-        _requests = new Requests(httpClient, store);
+        _requests = new(httpClient, store);
     }
 
     /// <summary>
@@ -15,27 +15,27 @@ public class LinksApi
     ///     If the host is not supported or the link is down, an error will be returned for that link.
     ///     This endpoint only support host links, not redirectors links. Use the link/redirector endpoint for this.
     /// </summary>
-    /// <param name="link">The link or array of links you request informations about.</param>
+    /// <param name="links">The list of links you request informations about.</param>
     /// <param name="password">Link password (supported on uptobox / 1fichier).</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<IList<LinkInfo>> InformationsAsync(String link, String? password = null, CancellationToken cancellationToken = default)
+    public async Task<List<LinkInfo>> InformationsAsync(List<String> links, String? password = null, CancellationToken cancellationToken = default)
     {
-        var parameters = new Dictionary<String, String>
+        var parameters = new Dictionary<String, String>();
+
+        for (var i = 0; i < links.Count; i++)
         {
-            {
-                "link[]", link
-            }
-        };
+            parameters.Add($"link[{i}]", links[i]);
+        }
 
         if (!String.IsNullOrWhiteSpace(password))
         {
-            parameters.Add("password", password!);
+            parameters.Add("password", password);
         }
 
         var result = await _requests.GetRequestAsync<LinksInformationsResponse>("link/infos", true, parameters, cancellationToken);
 
-        return result.Infos ?? new List<LinkInfo>();
+        return result.Infos ?? [];
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public class LinksApi
     /// <param name="link">The redirector or protector link to extract links.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<IList<String>> RedirectorAsync(String link, CancellationToken cancellationToken = default)
+    public async Task<List<String>> RedirectorAsync(String link, CancellationToken cancellationToken = default)
     {
         var parameters = new Dictionary<String, String>
         {

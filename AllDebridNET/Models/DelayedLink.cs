@@ -1,15 +1,27 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AllDebridNET;
 
 public class DelayedLink
 {
-    [JsonProperty("status")]
+    /// <summary>
+    ///     Current status.
+    ///     1: Still processing.
+    ///     2: Download link is available.
+    ///     3: Error, could not generate download link. 
+    /// </summary>
+    [JsonPropertyName("status")]
     public Int64 Status { get; set; }
 
-    [JsonProperty("time_left")]
+    /// <summary>
+    ///     Estimated time left to wait.
+    /// </summary>
+    [JsonPropertyName("time_left")]
     public Int64 TimeLeft { get; set; }
 
-    [JsonProperty("link")]
+    /// <summary>
+    ///    Download link, available when it is ready.
+    /// </summary>
+    [JsonPropertyName("link")]
     public String? Link { get; set; }
 }

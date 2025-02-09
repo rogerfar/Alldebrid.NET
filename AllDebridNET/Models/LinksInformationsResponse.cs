@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AllDebridNET;
 
-public class LinksInformationsResponse
+internal class LinksInformationsResponse
 {
-    [JsonProperty("infos")]
-    public IList<LinkInfo>? Infos { get; set; }
+    [JsonPropertyName("infos")]
+    public List<LinkInfo>? Infos { get; set; }
 }

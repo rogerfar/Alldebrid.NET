@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="big-buck-bunny.torrent" />
+    <None Remove="ubuntu-18.04.2-live-server-amd64.iso.torrent" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="big-buck-bunny.torrent">
+    <Content Include="ubuntu-18.04.2-live-server-amd64.iso.torrent">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -31,12 +31,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AllDebridNET\AllDebridNET.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="secret.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

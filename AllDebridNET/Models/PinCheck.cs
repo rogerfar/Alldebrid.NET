@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AllDebridNET;
 
@@ -7,18 +7,18 @@ public class PinCheck
     /// <summary>
     ///     Auth apikey, available once user has submitted the pin code.
     /// </summary>
-    [JsonProperty("apikey")]
+    [JsonPropertyName("apikey")]
     public String? Apikey { get; set; }
 
     /// <summary>
     ///     false if user didn't enter the pin on website yet.
     /// </summary>
-    [JsonProperty("activated")]
+    [JsonPropertyName("activated")]
     public Boolean Activated { get; set; }
 
     /// <summary>
     ///     Seconds left before PIN expires
     /// </summary>
-    [JsonProperty("expires_in")]
+    [JsonPropertyName("expires_in")]
     public Int64 ExpiresIn { get; set; }
 }

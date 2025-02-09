@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AllDebridNET;
 
@@ -7,49 +7,49 @@ public class DownloadLink
     /// <summary>
     ///     Requested link, simplified if it was not in canonical form.
     /// </summary>
-    [JsonProperty("link")]
+    [JsonPropertyName("link")]
     public String? Link { get; set; }
 
     /// <summary>
     ///     Link host minified.
     /// </summary>
-    [JsonProperty("host")]
+    [JsonPropertyName("host")]
     public String? Host { get; set; }
 
     /// <summary>
     ///     Link's file filename.
     /// </summary>
-    [JsonProperty("filename")]
+    [JsonPropertyName("filename")]
     public String? Filename { get; set; }
 
     /// <summary>
     ///     Unused.
     /// </summary>
-    [JsonProperty("paws")]
+    [JsonPropertyName("paws")]
     public Boolean Paws { get; set; }
 
     /// <summary>
     ///     Filesize of the link's file.
     /// </summary>
-    [JsonProperty("filesize")]
+    [JsonPropertyName("filesize")]
     public Int64 Filesize { get; set; }
 
     /// <summary>
     ///     List of alternative links with other resolutions for some video links.
     /// </summary>
-    [JsonProperty("streams")]
+    [JsonPropertyName("streams")]
     public List<DownloadLinkStream>? Streams { get; set; }
 
     /// <summary>
     ///     Generation ID.
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public String? Id { get; set; }
 
     /// <summary>
     ///     Matched host main domain.
     /// </summary>
-    [JsonProperty("hostDomain")]
+    [JsonPropertyName("hostDomain")]
     public String? HostDomain { get; set; }
 
     /// <summary>
@@ -60,21 +60,21 @@ public class DownloadLink
 
 public class DownloadLinkStream
 {
-    [JsonProperty("quality")]
+    [JsonPropertyName("quality")]
     public String? Quality { get; set; }
 
-    [JsonProperty("ext")]
+    [JsonPropertyName("ext")]
     public String? Ext { get; set; }
 
-    [JsonProperty("filesize")]
+    [JsonPropertyName("filesize")]
     public Int64 Filesize { get; set; }
 
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public String? Name { get; set; }
 
-    [JsonProperty("link")]
+    [JsonPropertyName("link")]
     public String? Link { get; set; }
 
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public String? Id { get; set; }
 }

@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AllDebridNET;
 
 internal class UserResponse
 {
-    [JsonProperty("user")]
+    [JsonPropertyName("user")]
     public User? User { get; set; }
 }
 
@@ -13,69 +13,69 @@ public class User
     /// <summary>
     ///     User username.
     /// </summary>
-    [JsonProperty("username")]
+    [JsonPropertyName("username")]
     public String? Username { get; set; }
 
     /// <summary>
     ///     User email.
     /// </summary>
-    [JsonProperty("email")]
+    [JsonPropertyName("email")]
     public String? Email { get; set; }
 
     /// <summary>
     ///     true is premium, false if not.
     /// </summary>
-    [JsonProperty("isPremium")]
+    [JsonPropertyName("isPremium")]
     public Boolean IsPremium { get; set; }
 
     /// <summary>
     ///     true is user has active subscription, false if not.
     /// </summary>
-    [JsonProperty("isSubscribed")]
+    [JsonPropertyName("isSubscribed")]
     public Boolean IsSubscribed { get; set; }
 
     /// <summary>
     ///     true is account is in freedays trial, false if not.
     /// </summary>
-    [JsonProperty("isTrial")]
+    [JsonPropertyName("isTrial")]
     public Boolean IsTrial { get; set; }
 
     /// <summary>
     ///     0 if user is not premium, or timestamp until user is premium.
     /// </summary>
-    [JsonProperty("premiumUntil")]
+    [JsonPropertyName("premiumUntil")]
     public Int64 PremiumUntil { get; set; }
 
     /// <summary>
     ///     Language used by the user on Alldebrid, eg. 'en', 'fr'. Default to fr.
     /// </summary>
-    [JsonProperty("lang")]
+    [JsonPropertyName("lang")]
     public String? Lang { get; set; }
 
     /// <summary>
     ///     Preferer TLD used by the user, eg. 'fr', 'es'. Default to fr.
     /// </summary>
-    [JsonProperty("preferedDomain")]
+    [JsonPropertyName("preferedDomain")]
     public String? PreferedDomain { get; set; }
 
     /// <summary>
     ///     Number of fidelity points.
     /// </summary>
-    [JsonProperty("fidelityPoints")]
+    [JsonPropertyName("fidelityPoints")]
     public Int64 FidelityPoints { get; set; }
 
     /// <summary>
     ///     Remaining quotas for the limited hosts (in MB).
     /// </summary>
-    [JsonProperty("limitedHostersQuotas")]
+    [JsonPropertyName("limitedHostersQuotas")]
     public Dictionary<String, Int64>? LimitedHostersQuotas { get; set; }
 
     /// <summary>
     ///     When in trial mode, remaining global traffic quota available (in MB).
     /// </summary>
-    [JsonProperty("remainingTrialQuota")]
+    [JsonPropertyName("remainingTrialQuota")]
     public Int64 RemainingTrialQuota { get; set; }
 
-    [JsonProperty("notifications")]
+    [JsonPropertyName("notifications")]
     public List<String>? Notifications { get; set; }
 }

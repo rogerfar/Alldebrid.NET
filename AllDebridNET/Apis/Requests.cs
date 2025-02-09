@@ -1,34 +1,16 @@
-﻿using System.Globalization;
-using System.Net;
-using System.Net.Http.Headers;
+﻿using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Web;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace AllDebridNET;
 
-internal class Requests
+internal class Requests(HttpClient httpClient, Store store)
 {
-    private readonly HttpClient _httpClient;
-    private readonly Store _store;
-
-    public static readonly JsonSerializerSettings JsonSerializerSettings = new()
+    private static JsonSerializerOptions JsonSerializerSettings => new()
     {
-        MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-        DateParseHandling = DateParseHandling.None,
-        Converters =
-        {
-            new FileEUnionConverter(),
-            new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
-        },
+        PropertyNameCaseInsensitive = true
     };
-
-    public Requests(HttpClient httpClient, Store store)
-    {
-        _httpClient = httpClient;
-        _store = store;
-    }
 
     private async Task<String?> Request(String url,
                                         Boolean requireAuthentication, 
@@ -37,7 +19,14 @@ internal class Requests
                                         IDictionary<String, String>? parameters,
                                         CancellationToken cancellationToken)
     {
-        url = $"{Store.API_URL}{url}?agent={HttpUtility.UrlEncode(_store.Agent)}";
+        if (url.StartsWith("v"))
+        {
+            url = $"{Store.API_URL}{url}?agent={HttpUtility.UrlEncode(store.Agent)}";
+        }
+        else
+        {
+            url = $"{Store.API_URL}{Store.API_VERSION}{url}?agent={HttpUtility.UrlEncode(store.Agent)}";
+        }
 
         if (parameters is {Count: > 0})
         {
@@ -46,23 +35,23 @@ internal class Requests
             url = $"{url}&{parametersString}";
         }
 
-        _httpClient.DefaultRequestHeaders.Remove("Authorization");
+        httpClient.DefaultRequestHeaders.Remove("Authorization");
 
         if (requireAuthentication)
         {
-            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_store.ApiKey}");
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {store.ApiKey}");
         }
 
         var response = requestType switch
         {
-            RequestType.Get => await _httpClient.GetAsync(url, cancellationToken),
-            RequestType.Post => await _httpClient.PostAsync(url, data, cancellationToken),
-            RequestType.Put => await _httpClient.PutAsync(url, data, cancellationToken),
-            RequestType.Delete => await _httpClient.DeleteAsync(url, cancellationToken),
+            RequestType.Get => await httpClient.GetAsync(url, cancellationToken),
+            RequestType.Post => await httpClient.PostAsync(url, data, cancellationToken),
+            RequestType.Put => await httpClient.PutAsync(url, data, cancellationToken),
+            RequestType.Delete => await httpClient.DeleteAsync(url, cancellationToken),
             _ => throw new ArgumentOutOfRangeException(nameof(requestType), requestType, null)
         };
 
-        var buffer = await response.Content.ReadAsByteArrayAsync();
+        var buffer = await response.Content.ReadAsByteArrayAsync(cancellationToken);
         var text = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
 
         if (response.StatusCode == HttpStatusCode.NoContent)
@@ -85,16 +74,16 @@ internal class Requests
 
         if (requestResult == null)
         {
-            return new T();
+            return new();
         }
 
         try
         {
-            var result = JsonConvert.DeserializeObject<Response<T>>(requestResult, JsonSerializerSettings);
+            var result = JsonSerializer.Deserialize<Response<T>>(requestResult, JsonSerializerSettings);
 
             if (result == null)
             {
-                throw new Exception("Response was null");
+                throw new("Response was null");
             }
 
             if (result.Status != "success")
@@ -104,19 +93,23 @@ internal class Requests
                     throw new AllDebridException(result.Error.Message!, result.Error.Code!);
                 }
 
-                throw new JsonSerializationException($"Unknown error. Response was: {result}");
+                throw new($"Unknown error. Response was: {result}");
             }
 
             if (result.Data == null)
             {
-                return new T();
+                return new();
             }
 
             return result.Data;
         }
+        catch (AllDebridException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
-            throw new Exception($"Unable to deserialize AllDebrid API response to {typeof(T).Name}. Response was: {requestResult}", ex);
+            throw new($"Unable to deserialize AllDebrid API response to {typeof(T).Name}. Response was: {requestResult}", ex);
         }
     }
         
@@ -137,15 +130,15 @@ internal class Requests
         where T : class, new()
     {
         using var multipartFormDataContent = new MultipartFormDataContent();
-        multipartFormDataContent.Headers.ContentType.MediaType = "multipart/form-data";
+        multipartFormDataContent.Headers.ContentType!.MediaType = "multipart/form-data";
 
         var fileContent = new StreamContent(new MemoryStream(file));
-        fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") 
+        fileContent.Headers.ContentDisposition = new("form-data") 
         { 
             Name = "files[]",
             FileName = "1.torrent"
         };
-        fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-bittorrent");
+        fileContent.Headers.ContentType = new("application/x-bittorrent");
 
         multipartFormDataContent.Add(fileContent);
             

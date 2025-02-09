@@ -1,15 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AllDebridNET;
 
 internal class MagnetsStatusResponse
 {
-    [JsonProperty("magnets")]
-    public IList<Magnet>? Magnets { get; set; }
-
-    [JsonProperty("counter")]
-    public Int64 Counter { get; set; }
-
-    [JsonProperty("fullsync")]
-    public Boolean Fullsync { get; set; }
+    /// <summary>
+    ///     List of magnets.
+    /// </summary>
+    [JsonPropertyName("magnets")]
+    public List<Magnet>? Magnets { get; set; }
 }

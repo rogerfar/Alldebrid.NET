@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AllDebridNET;
 
-public class LinksRedirectorResponse
+internal class LinksRedirectorResponse
 {
-    [JsonProperty("links")]
-    public IList<String>? Links { get; set; }
+    [JsonPropertyName("links")]
+    public List<String>? Links { get; set; }
 }

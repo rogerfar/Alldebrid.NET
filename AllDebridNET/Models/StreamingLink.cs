@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AllDebridNET;
 
@@ -7,28 +7,28 @@ public class StreamingLink
     /// <summary>
     /// Optional. Download link, ONLY if available. This attribute WONT BE SET if download link is a delayed link.
     /// </summary>
-    [JsonProperty("link")]
+    [JsonPropertyName("link")]
     public String? Link { get; set; }
 
-    [JsonProperty("host")]
+    [JsonPropertyName("host")]
     public String? Host { get; set; }
 
     /// <summary>
     /// Link's file filename.
     /// </summary>
-    [JsonProperty("filename")]
+    [JsonPropertyName("filename")]
     public String? Filename { get; set; }
 
     /// <summary>
     /// Filesize of the link's file.
     /// </summary>
-    [JsonProperty("filesize")]
+    [JsonPropertyName("filesize")]
     public Int64 Filesize { get; set; }
 
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public String? Id { get; set; }
 
-    [JsonProperty("streams")]
+    [JsonPropertyName("streams")]
     public List<StreamingLinkStream>? Streams { get; set; }
 
     /// <summary>
@@ -39,27 +39,27 @@ public class StreamingLink
 
 public class StreamingLinkStream
 {
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public String? Id { get; set; }
 
-    [JsonProperty("ext")]
+    [JsonPropertyName("ext")]
     public String? Ext { get; set; }
 
-    [JsonProperty("quality")]
+    [JsonPropertyName("quality")]
     public String? Quality { get; set; }
 
-    [JsonProperty("filesize")]
+    [JsonPropertyName("filesize")]
     public Int64 Filesize { get; set; }
 
-    [JsonProperty("proto")]
+    [JsonPropertyName("proto")]
     public String? Proto { get; set; }
 
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public String? Name { get; set; }
 
-    [JsonProperty("tb")]
+    [JsonPropertyName("tb")]
     public Decimal? Tb { get; set; }
 
-    [JsonProperty("abr")]
+    [JsonPropertyName("abr")]
     public Int64? Abr { get; set; }
 }

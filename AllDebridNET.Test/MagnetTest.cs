@@ -9,68 +9,123 @@ public class MagnetTest
     [Fact]
     public async Task UploadMagnet()
     {
-        var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
+        var client = new AllDebridNETClient("AllDebridNETTest", "staticDemoApikeyPrem");
 
-        const String magnet = "magnet:?xt=urn:btih:dd8255ecdc7ca55fb0bbf81323d87062db1f6d1c&dn=Big+Buck+Bunny&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2F&xs=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fbig-buck-bunny.torrent";
+        const String magnet = "magnet:?xt=urn:btih:3A842783e3005495d5d1637f5364b59343c7844707&dn=ubuntu-18.04.2-live-server-amd64.iso";
 
         var result = await client.Magnet.UploadMagnetAsync(magnet);
 
-        Assert.Equal("dd8255ecdc7ca55fb0bbf81323d87062db1f6d1c", result.Hash);
+        Assert.NotNull(result);
+        Assert.Equal("magnet:?xt=urn:btih:3A842783e3005495d5d1637f5364b59343c7844707&dn=ubuntu-18.04.2-live-server-amd64.iso", result.Magnet);
+        Assert.Equal("3A842783e3005495d5d1637f5364b59343c7844707", result.Hash);
+        Assert.Equal("ubuntu-18.04.2-live-server-amd64.iso", result.Name);
+        Assert.Equal(48216647, result.Size);
+        Assert.Equal(123456, result.Id);
+        Assert.False(result.Ready);
     }
 
     [Fact]
     public async Task UploadFile()
     {
-        var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
+        var client = new AllDebridNETClient("AllDebridNETTest", "staticDemoApikeyPrem");
 
-        const String filePath = @"big-buck-bunny.torrent";
+        const String filePath = "ubuntu-18.04.2-live-server-amd64.iso.torrent";
 
         var file = await System.IO.File.ReadAllBytesAsync(filePath);
 
         var result = await client.Magnet.UploadFileAsync(file);
 
-        Assert.Equal("dd8255ecdc7ca55fb0bbf81323d87062db1f6d1c", result.Hash);
+        Assert.NotNull(result);
+        Assert.Null(result.Magnet);
+        Assert.Equal("842783e3005495d5d1637f5364b59343c7844707", result.Hash);
+        Assert.Equal("Ubuntu 18.04.2 live server amd64", result.Name);
+        Assert.Equal(1954210119, result.Size);
+        Assert.Equal(123456, result.Id);
+        Assert.False(result.Ready);
     }
         
     [Fact]
     public async Task Status()
     {
-        var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
+        var client = new AllDebridNETClient("AllDebridNETTest", "staticDemoApikeyPrem");
 
         var result = await client.Magnet.StatusAllAsync();
+
+        Assert.Equal(3, result.Count);
+    }
+
+    [Fact]
+    public async Task StatusActive()
+    {
+        var client = new AllDebridNETClient("AllDebridNETTest", "staticDemoApikeyPrem");
+
+        var result = await client.Magnet.StatusAllAsync("active");
+
+        Assert.Single(result);
     }
 
     [Fact]
     public async Task Status_Single()
     {
-        var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
+        var client = new AllDebridNETClient("AllDebridNETTest", "staticDemoApikeyPrem");
 
-        var result = await client.Magnet.StatusAsync("130908408");
+        var result = await client.Magnet.StatusAsync("56789");
+
+        Assert.NotNull(result);
+
+        Assert.Equal(56789, result.Id);
+        Assert.Equal("ubuntu-20.04.2-live-server-amd64.iso", result.Filename);
+        Assert.Equal("987654321cef825718eda30637230585e3330599", result.Hash);
+        Assert.Equal(256400192L, result.Size);
+        Assert.Equal("Ready", result.Status);
+        Assert.Equal(4, result.StatusCode);
+        Assert.Equal(1657133868, result.UploadDate);
+        Assert.Equal(1657133968, result.CompletionDate);
+    }
+
+    [Fact]
+    public async Task StatusLive()
+    {
+        var client = new AllDebridNETClient("AllDebridNETTest", "staticDemoApikeyPrem");
+
+        var result = await client.Magnet.StatusLiveAsync(1234, 0);
+
+        Assert.NotNull(result.Magnets);
+        Assert.Equal(3, result.Magnets.Count);
+        Assert.True(result.Fullsync);
+        Assert.Equal(1, result.Counter);
+    }
+    
+    [Fact]
+    public async Task StatusLiveDelta()
+    {
+        var client = new AllDebridNETClient("AllDebridNETTest", "staticDemoApikeyPrem");
+
+        var result = await client.Magnet.StatusLiveAsync(1234, 1);
+
+        Assert.NotNull(result.Magnets);
+        Assert.Equal(1, result.Magnets.Count);
+        Assert.Null(result.Fullsync);
+        Assert.Equal(2, result.Counter);
     }
 
     [Fact]
     public async Task Delete()
     {
-        var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
+        var client = new AllDebridNETClient("AllDebridNETTest", "staticDemoApikeyPrem");
 
-        await client.Magnet.DeleteAsync("123233471");
+        var result = await client.Magnet.DeleteAsync("56789");
+
+        Assert.Equal("Magnet was successfully deleted", result);
     }
 
     [Fact]
     public async Task RestartAsync()
     {
-        var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
+        var client = new AllDebridNETClient("AllDebridNETTest", "staticDemoApikeyPrem");
 
-        await client.Magnet.RestartAsync("123233471");
-    }
-        
-    [Fact]
-    public async Task InstantAvailability()
-    {
-        var client = new AllDebridNETClient("AllDebridNETTest", Setup.ApiKey);
+        var result = await client.Magnet.RestartAsync("99999");
 
-        const String magnet = "magnet:?xt=urn:btih:dd8255ecdc7ca55fb0bbf81323d87062db1f6d1c&dn=Big+Buck+Bunny&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2F&xs=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fbig-buck-bunny.torrent";
-
-        var result = await client.Magnet.InstantAvailabilityAsync(magnet);
+        Assert.Equal("Magnet was successfully restarted", result);
     }
 }

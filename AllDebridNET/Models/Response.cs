@@ -1,24 +1,24 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AllDebridNET;
 
 internal class Response<T>
 {
-    [JsonProperty("status")]
-    public String? Status { get;set; }
+    [JsonPropertyName("status")]
+    public String? Status { get; init; }
 
-    [JsonProperty("data")]
-    public T? Data { get;set; }
+    [JsonPropertyName("data")]
+    public T? Data { get; init; }
 
-    [JsonProperty("error")]
-    public ResponseError? Error { get;set; }
+    [JsonPropertyName("error")]
+    public ResponseError? Error { get; init; }
 }
 
 public class ResponseError
 {
-    [JsonProperty("code")]
-    public String? Code { get;set; }
+    [JsonPropertyName("code")]
+    public String? Code { get; init; }
 
-    [JsonProperty("message")]
-    public String? Message { get;set; }
+    [JsonPropertyName("message")]
+    public String? Message { get; init; }
 }

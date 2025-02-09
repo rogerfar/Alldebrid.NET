@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AllDebridNET;
 
@@ -7,29 +7,29 @@ public class Magnet
     /// <summary>
     ///     Magnet id.
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Int64 Id { get; set; }
 
     /// <summary>
     ///     Magnet filename.
     /// </summary>
-    [JsonProperty("filename")]
-    public String Filename { get; set; } = null!;
+    [JsonPropertyName("filename")]
+    public String? Filename { get; set; } = null!;
 
     /// <summary>
     ///     Magnet filesize.
     /// </summary>
-    [JsonProperty("size")]
-    public Int64 Size { get; set; }
+    [JsonPropertyName("size")]
+    public Int64? Size { get; set; }
 
-    [JsonProperty("hash")]
-    public String Hash { get; set; } = null!;
+    [JsonPropertyName("hash")]
+    public String? Hash { get; set; } = null!;
 
     /// <summary>
     ///     Status in plain English.
     /// </summary>
-    [JsonProperty("status")]
-    public String Status { get; set; } = null!;
+    [JsonPropertyName("status")]
+    public String? Status { get; set; } = null!;
 
     /// <summary>
     ///     Status code.
@@ -46,65 +46,65 @@ public class Magnet
     ///     10	Error	Download took more than 72h.
     ///     11	Error	Deleted on the hoster website
     /// </summary>
-    [JsonProperty("statusCode")]
-    public Int64 StatusCode { get; set; }
+    [JsonPropertyName("statusCode")]
+    public Int32? StatusCode { get; set; }
 
     /// <summary>
     ///     Downloaded data so far.
     /// </summary>
-    [JsonProperty("downloaded")]
-    public Int64 Downloaded { get; set; }
+    [JsonPropertyName("downloaded")]
+    public Int64? Downloaded { get; set; }
 
     /// <summary>
     ///     Uploaded data so far.
     /// </summary>
-    [JsonProperty("uploaded")]
-    public Int64 Uploaded { get; set; }
+    [JsonPropertyName("uploaded")]
+    public Int64? Uploaded { get; set; }
 
     /// <summary>
     ///     Seeders count.
     /// </summary>
-    [JsonProperty("seeders")]
-    public Int64 Seeders { get; set; }
+    [JsonPropertyName("seeders")]
+    public Int64? Seeders { get; set; }
 
     /// <summary>
     ///     Download speed.
     /// </summary>
-    [JsonProperty("downloadSpeed")]
-    public Int64 DownloadSpeed { get; set; }
+    [JsonPropertyName("downloadSpeed")]
+    public Int64? DownloadSpeed { get; set; }
 
-    [JsonProperty("processingPerc")]
-    public Int64 ProcessingPerc { get; set; }
+    [JsonPropertyName("processingPerc")]
+    public Int64? ProcessingPerc { get; set; }
 
     /// <summary>
     ///     Upload speed.
     /// </summary>
-    [JsonProperty("uploadSpeed")]
-    public Int64 UploadSpeed { get; set; }
+    [JsonPropertyName("uploadSpeed")]
+    public Int64? UploadSpeed { get; set; }
 
     /// <summary>
     ///     Timestamp of the date of the magnet upload.
     /// </summary>
-    [JsonProperty("uploadDate")]
-    public Int64 UploadDate { get; set; }
+    [JsonPropertyName("uploadDate")]
+    public Int64? UploadDate { get; set; }
 
     /// <summary>
     ///     Timestamp of the date of the magnet completion.
     /// </summary>
-    [JsonProperty("completionDate")]
-    public Int64 CompletionDate { get; set; }
+    [JsonPropertyName("completionDate")]
+    public Int64? CompletionDate { get; set; }
 
-    [JsonProperty("links")]
-    public List<Link> Links { get; set; } = new();
+    [JsonPropertyName("links")]
+    public List<Link> Links { get; set; } = [];
 
-    [JsonProperty("type")]
+    [JsonPropertyName("type")]
     public String? Type { get; set; }
 
-    [JsonProperty("notified")]
-    public Boolean Notified { get; set; }
+    [JsonPropertyName("notified")]
+    public Boolean? Notified { get; set; }
 
-    [JsonProperty("version")]
-    public Int64 Version { get; set; }
+    [JsonPropertyName("version")]
+    public Int64? Version { get; set; }
 }
 
 public class Link
@@ -112,46 +112,46 @@ public class Link
     /// <summary>
     ///     Download link.
     /// </summary>
-    [JsonProperty("link")]
+    [JsonPropertyName("link")]
     public String LinkUrl { get; set; } = null!;
 
     /// <summary>
     ///     File name
     /// </summary>
-    [JsonProperty("filename")]
+    [JsonPropertyName("filename")]
     public String Filename { get; set; } = null!;
 
     /// <summary>
     ///     File size.
     /// </summary>
-    [JsonProperty("size")]
+    [JsonPropertyName("size")]
     public Int64 Size { get; set; }
 
-    [JsonProperty("files")]
-    public List<File> Files { get; set; } = new();
+    [JsonPropertyName("files")]
+    public List<File> Files { get; set; } = [];
 }
 
 public class File
 {
-    [JsonProperty("n")]
+    [JsonPropertyName("n")]
     public String N { get; set; } = null!;
 
-    [JsonProperty("e", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("e")]
     public FileEUnion? E { get; set; }
 }
 
 public class FileE1
 {
-    [JsonProperty("n")]
+    [JsonPropertyName("n")]
     public String N { get; set; } = null!;
 
-    [JsonProperty("e", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("e")]
     public List<FileE2>? E { get; set; }
 }
 
 public class FileE2
 {
-    [JsonProperty("n")]
+    [JsonPropertyName("n")]
     public String N { get; set; } = null!;
 }
 

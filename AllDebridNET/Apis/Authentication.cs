@@ -8,7 +8,7 @@ public class AuthenticationApi
     internal AuthenticationApi(HttpClient httpClient, Store store)
     {
         _store = store;
-        _requests = new Requests(httpClient, store);
+        _requests = new(httpClient, store);
     }
 
     /// <summary>
@@ -23,7 +23,11 @@ public class AuthenticationApi
     /// </returns>
     public async Task<PinRequest> GetPinAsync(CancellationToken cancellationToken = default)
     {
-        return await _requests.GetRequestAsync<PinRequest>("pin/get", false, null, cancellationToken);
+        var parameters = new Dictionary<String, String>();
+#if DEBUG
+        parameters.Add("demo", "");
+#endif
+        return await _requests.GetRequestAsync<PinRequest>("pin/get", false, parameters, cancellationToken);
     }
 
     /// <summary>

@@ -1,18 +1,10 @@
 ﻿namespace AllDebridNET;
 
-public class AllDebridException : Exception
+public class AllDebridException(String error, String errorCode) : Exception(GetMessage(error, errorCode))
 {
-    public AllDebridException(String error, String errorCode)
-        : base(GetMessage(error, errorCode))
-    {
-        ServerError = error;
-        ErrorCode = errorCode;
-        Error = GetMessage(error, errorCode);
-    }
-
-    public String ServerError { get; }
-    public String ErrorCode { get; }
-    public String Error { get; }
+    public String ServerError { get; } = error;
+    public String ErrorCode { get; } = errorCode;
+    public String Error { get; } = GetMessage(error, errorCode);
 
     private static String GetMessage(String error, String errorCode)
     {

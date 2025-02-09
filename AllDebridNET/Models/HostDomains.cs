@@ -1,15 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AllDebridNET;
 
 public class HostDomains
 {
-    [JsonProperty("hosts")]
+    [JsonPropertyName("hosts")]
     public List<String>? Hosts { get; set; }
 
-    [JsonProperty("streams")]
+    [JsonPropertyName("streams")]
     public List<String>? Streams { get; set; }
 
-    [JsonProperty("redirectors")]
+    [JsonPropertyName("redirectors")]
     public List<String>? Redirectors { get; set; }
 }

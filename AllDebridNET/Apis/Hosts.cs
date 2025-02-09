@@ -6,7 +6,7 @@ public class HostsApi
 
     internal HostsApi(HttpClient httpClient, Store store)
     {
-        _requests = new Requests(httpClient, store);
+        _requests = new(httpClient, store);
     }
         
     /// <summary>
@@ -33,7 +33,7 @@ public class HostsApi
     /// </param>
     public async Task<HostDomains> GetDomainsAsync(CancellationToken cancellationToken = default)
     {
-        return await _requests.GetRequestAsync<HostDomains>($"hosts/status", false, null, cancellationToken);
+        return await _requests.GetRequestAsync<HostDomains>($"hosts/domains", false, null, cancellationToken);
     }
         
     /// <summary>

@@ -12,7 +12,9 @@ public class AllDebridNETClient
     public HostsApi Hosts { get; }
     public LinksApi Links { get; }
     public MagnetApi Magnet { get; }
+    public SystemApi System { get; set; }
     public UserApi User { get; }
+    public UserLinksApi UserLink { get; set; }
 
     /// <summary>
     ///     Initialize the AllDebridNET API.
@@ -34,7 +36,7 @@ public class AllDebridNETClient
     {
         if (String.IsNullOrWhiteSpace(agent))
         {
-            throw new Exception("Please provide an agent name, like the name of your app");
+            throw new("Please provide an agent name, like the name of your app");
         }
 
         var client = httpClient ?? new HttpClient();
@@ -42,10 +44,12 @@ public class AllDebridNETClient
         _store.Agent = agent;
         _store.ApiKey = apiKey;
 
-        Authentication = new AuthenticationApi(client, _store);
-        Hosts = new HostsApi(client, _store);
-        Links = new LinksApi(client, _store);
-        Magnet = new MagnetApi(client, _store);
-        User = new UserApi(client, _store);
+        Authentication = new(client, _store);
+        Hosts = new(client, _store);
+        Links = new(client, _store);
+        Magnet = new(client, _store);
+        System = new(client, _store);
+        User = new(client, _store);
+        UserLink = new(client, _store);
     }
 }

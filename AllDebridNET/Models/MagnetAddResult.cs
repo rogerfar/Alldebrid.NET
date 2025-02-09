@@ -1,30 +1,45 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AllDebridNET;
 
 public class MagnetAddResult
 {
-    [JsonProperty("magnet")]
+    /// <summary>
+    ///     Magnet sent.
+    /// </summary>
+    [JsonPropertyName("magnet")]
     public String? Magnet { get; set; }
 
-    [JsonProperty("file")]
-    public String? File { get; set; }
-
-    [JsonProperty("hash")]
+    /// <summary>
+    ///     Magnet hash.
+    /// </summary>
+    [JsonPropertyName("hash")]
     public String? Hash { get; set; }
 
-    [JsonProperty("name")]
+    /// <summary>
+    ///     Magnet filename, or 'noname' if could not parse it.
+    /// </summary>
+    [JsonPropertyName("name")]
     public String? Name { get; set; }
 
-    [JsonProperty("size")]
+    /// <summary>
+    ///     Magnet files size.
+    /// </summary>
+    [JsonPropertyName("size")]
     public Int64? Size { get; set; }
 
-    [JsonProperty("ready")]
+    /// <summary>
+    ///     Whether the magnet is already available.
+    /// </summary>
+    [JsonPropertyName("ready")]
     public Boolean? Ready { get; set; }
 
-    [JsonProperty("id")]
+    /// <summary>
+    ///     Magnet id, used to query status.
+    /// </summary>
+    [JsonPropertyName("id")]
     public Int64? Id { get; set; }
 
-    [JsonProperty("error")]
+    [JsonPropertyName("error")]
     public ResponseError? Error { get; set; }
 }

@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AllDebridNET;
 
 internal class MagnetStatusResponse
 {
-    [JsonProperty("magnets")]
-    public Magnet? Magnets { get; set; }
+    [JsonPropertyName("magnets")]
+    public List<Magnet>? Magnets { get; set; }
 }
