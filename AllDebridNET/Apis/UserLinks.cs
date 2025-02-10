@@ -1,6 +1,4 @@
-﻿using AllDebridNET.Models;
-
-namespace AllDebridNET;
+﻿namespace AllDebridNET;
 
 public class UserLinksApi
 {

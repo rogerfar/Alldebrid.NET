@@ -1,5 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -12,10 +11,9 @@
     <RepositoryUrl>https://github.com/rogerfar/Alldebrid.NET</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>AllDebrid All-Debrid</PackageTags>
-    <Version>1.0.12</Version>
+    <Version>1.0.14</Version>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
-
 </Project>

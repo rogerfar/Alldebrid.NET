@@ -19,15 +19,8 @@ internal class Requests(HttpClient httpClient, Store store)
                                         IDictionary<String, String>? parameters,
                                         CancellationToken cancellationToken)
     {
-        if (url.StartsWith("v"))
-        {
-            url = $"{Store.API_URL}{url}?agent={HttpUtility.UrlEncode(store.Agent)}";
-        }
-        else
-        {
-            url = $"{Store.API_URL}{Store.API_VERSION}{url}?agent={HttpUtility.UrlEncode(store.Agent)}";
-        }
-
+        url = $"{Store.API_URL}{Store.API_VERSION}{url}?agent={HttpUtility.UrlEncode(store.Agent)}";
+        
         if (parameters is {Count: > 0})
         {
             var parametersString = String.Join("&", parameters.Select(m => $"{m.Key}={HttpUtility.UrlEncode(m.Value)}"));
@@ -79,12 +72,7 @@ internal class Requests(HttpClient httpClient, Store store)
 
         try
         {
-            var result = JsonSerializer.Deserialize<Response<T>>(requestResult, JsonSerializerSettings);
-
-            if (result == null)
-            {
-                throw new("Response was null");
-            }
+            var result = JsonSerializer.Deserialize<Response<T>>(requestResult, JsonSerializerSettings) ?? throw new("Response was null");
 
             if (result.Status != "success")
             {

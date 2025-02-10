@@ -49,7 +49,7 @@ public class HostsApi
     {
         var response = await _requests.GetRequestAsync<HostsPriorityResponse>($"hosts/priority", false, null, cancellationToken);
 
-        return response.Hosts ?? new Dictionary<String, Int64>();
+        return response.Hosts ?? [];
     }
 
     /// <summary>

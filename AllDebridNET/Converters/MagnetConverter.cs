@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using AllDebridNET;
+
+namespace AllDebridNET;
 
 public class MagnetListConverter : JsonConverter<List<Magnet>>
 {
@@ -14,7 +15,7 @@ public class MagnetListConverter : JsonConverter<List<Magnet>>
             case JsonTokenType.StartObject:
             {
                 // If it's a single object, create a list with just that object
-                var magnet = JsonSerializer.Deserialize<Magnet>(ref reader, options);
+                var magnet = JsonSerializer.Deserialize<Magnet>(ref reader, options)!;
                 return [magnet];
             }
             case JsonTokenType.Null:

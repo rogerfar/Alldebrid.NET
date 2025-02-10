@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace AllDebridNET.Converters;
+namespace AllDebridNET;
 
 public class RegexpConverter : JsonConverter<List<String>>
 {

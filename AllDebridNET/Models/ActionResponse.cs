@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace AllDebridNET.Models;
+namespace AllDebridNET;
 
 public class ActionResponse
 {

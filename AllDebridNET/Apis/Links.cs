@@ -55,7 +55,7 @@ public class LinksApi
 
         var result = await _requests.GetRequestAsync<LinksRedirectorResponse>("link/redirector", true, parameters, cancellationToken);
 
-        return result.Links ?? new List<String>();
+        return result.Links ?? [];
     }
 
     /// <summary>

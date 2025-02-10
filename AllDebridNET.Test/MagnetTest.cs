@@ -133,7 +133,7 @@ public class MagnetTest
         var result = await client.Magnet.StatusLiveAsync(1234, 1);
 
         Assert.NotNull(result.Magnets);
-        Assert.Equal(1, result.Magnets.Count);
+        Assert.Single(result.Magnets);
         Assert.Null(result.Fullsync);
         Assert.Equal(2, result.Counter);
     }

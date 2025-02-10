@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.Json;
 
-namespace AllDebridNET.Converters;
+namespace AllDebridNET;
 
 public class StringToInt64Converter : JsonConverter<Int64>
 {
