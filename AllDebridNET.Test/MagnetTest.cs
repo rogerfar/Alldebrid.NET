@@ -84,6 +84,35 @@ public class MagnetTest
     }
 
     [Fact]
+    public async Task Files()
+    {
+        var client = new AllDebridNETClient("AllDebridNETTest", "staticDemoApikeyPrem");
+
+        var result = await client.Magnet.FilesAsync(56789);
+
+        Assert.NotNull(result);
+
+        Assert.Equal(2, result.Count);
+
+        Assert.Equal("ubuntu-18.04.2-live-server-amd64.iso", result[0].FolderOrFileName);
+        Assert.Equal(145517304, result[0].Size);
+        Assert.Equal("https://alldebrid.com/f/xxxxxxaaaabbbbcccc", result[0].DownloadLink);
+        Assert.Null(result[0].SubNodes);
+
+        Assert.Equal("docs", result[1].FolderOrFileName);
+        Assert.Null(result[1].Size);
+        Assert.Null(result[1].DownloadLink);
+        Assert.NotNull(result[1].SubNodes);
+        Assert.Equal(2, result[1].SubNodes.Count);
+        Assert.Equal("README.txt", result[1].SubNodes[0].FolderOrFileName);
+        Assert.Equal(87207, result[1].SubNodes[0].Size);
+        Assert.Equal("https://alldebrid.com/f/qsklqdaaaabbbbcccc", result[1].SubNodes[0].DownloadLink);
+        Assert.Equal("INSTALL.txt", result[1].SubNodes[1].FolderOrFileName);
+        Assert.Equal(242117, result[1].SubNodes[1].Size);
+        Assert.Equal("https://alldebrid.com/f/48qsoisg4aaabbbbcccc", result[1].SubNodes[1].DownloadLink);
+    }
+
+    [Fact]
     public async Task StatusLive()
     {
         var client = new AllDebridNETClient("AllDebridNETTest", "staticDemoApikeyPrem");

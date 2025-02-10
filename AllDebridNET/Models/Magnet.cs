@@ -94,72 +94,21 @@ public class Magnet
     [JsonPropertyName("completionDate")]
     public Int64? CompletionDate { get; set; }
 
-    [JsonPropertyName("links")]
-    public List<Link> Links { get; set; } = [];
-
-    [JsonPropertyName("type")]
-    public String? Type { get; set; }
-
-    [JsonPropertyName("notified")]
-    public Boolean? Notified { get; set; }
-
-    [JsonPropertyName("version")]
-    public Int64? Version { get; set; }
-}
-
-public class Link
-{
-    /// <summary>
-    ///     Download link.
-    /// </summary>
-    [JsonPropertyName("link")]
-    public String LinkUrl { get; set; } = null!;
-
-    /// <summary>
-    ///     File name
-    /// </summary>
-    [JsonPropertyName("filename")]
-    public String Filename { get; set; } = null!;
-
-    /// <summary>
-    ///     File size.
-    /// </summary>
-    [JsonPropertyName("size")]
-    public Int64 Size { get; set; }
-
     [JsonPropertyName("files")]
-    public List<File> Files { get; set; } = [];
+    public List<File>? Files { get; set; }
 }
 
 public class File
 {
     [JsonPropertyName("n")]
-    public String N { get; set; } = null!;
+    public String FolderOrFileName { get; set; } = null!;
+
+    [JsonPropertyName("s")]
+    public Int64? Size { get; set; }
 
     [JsonPropertyName("e")]
-    public FileEUnion? E { get; set; }
-}
+    public List<File>? SubNodes { get; set; }
 
-public class FileE1
-{
-    [JsonPropertyName("n")]
-    public String N { get; set; } = null!;
-
-    [JsonPropertyName("e")]
-    public List<FileE2>? E { get; set; }
-}
-
-public class FileE2
-{
-    [JsonPropertyName("n")]
-    public String N { get; set; } = null!;
-}
-
-public struct FileEUnion
-{
-    public FileE1? FileE1;
-    public List<FileE1>? PurpleEArray;
-
-    public static implicit operator FileEUnion(FileE1 fileE1) => new() { FileE1 = fileE1 };
-    public static implicit operator FileEUnion(List<FileE1> PurpleEArray) => new() { PurpleEArray = PurpleEArray };
+    [JsonPropertyName("l")]
+    public String? DownloadLink { get; set; }
 }

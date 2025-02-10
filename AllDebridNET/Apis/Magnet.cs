@@ -190,6 +190,19 @@ public class MagnetApi
         return await _requests.PostRequestAsync<MagnetStatusLiveResponse>("magnet/status", data, true, cancellationToken);
     }
 
+    public async Task<List<File>> FilesAsync(Int64 magnetId, CancellationToken cancellationToken = default)
+    {
+        var parameters = new Dictionary<String, String>
+        {
+            {
+                "id[]", magnetId.ToString()
+            }
+        };
+        var magnet = await _requests.GetRequestAsync<MagnetsStatusResponse>("magnet/files", true, parameters, cancellationToken);
+
+        return magnet.Magnets?.FirstOrDefault()?.Files ?? [];
+    }
+
     /// <summary>
     ///     Delete a magnet.
     /// </summary>
