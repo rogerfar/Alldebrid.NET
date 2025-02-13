@@ -8,7 +8,7 @@ public class MagnetStatusLiveResponse
     ///    List of magnets.
     /// </summary>
     [JsonPropertyName("magnets")]
-    [JsonConverter(typeof(MagnetListConverter))]
+    [JsonConverter(typeof(ListConverter<Magnet>))]
     public List<Magnet>? Magnets { get; set; }
 
     /// <summary>

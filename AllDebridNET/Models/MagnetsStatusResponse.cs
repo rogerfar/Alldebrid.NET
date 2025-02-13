@@ -8,5 +8,6 @@ internal class MagnetsStatusResponse
     ///     List of magnets.
     /// </summary>
     [JsonPropertyName("magnets")]
+    [JsonConverter(typeof(ListConverter<Magnet>))]
     public List<Magnet>? Magnets { get; set; }
 }

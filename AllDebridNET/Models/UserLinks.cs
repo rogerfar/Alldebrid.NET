@@ -5,6 +5,7 @@ namespace AllDebridNET;
 internal class UserLinks
 {
     [JsonPropertyName("links")]
+    [JsonConverter(typeof(ListConverter<UserLink>))]
     public List<UserLink> Links { get; set; } = [];
 }
 

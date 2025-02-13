@@ -3,20 +3,20 @@ using System.Text.Json.Serialization;
 
 namespace AllDebridNET;
 
-public class MagnetListConverter : JsonConverter<List<Magnet>>
+public class ListConverter<T> : JsonConverter<List<T>> where T : class
 {
-    public override List<Magnet> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override List<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         switch (reader.TokenType)
         {
             case JsonTokenType.StartArray:
                 // If it's already an array, deserialize it directly as a list
-                return JsonSerializer.Deserialize<List<Magnet>>(ref reader, options) ?? [];
+                return JsonSerializer.Deserialize<List<T>>(ref reader, options) ?? [];
             case JsonTokenType.StartObject:
             {
                 // If it's a single object, create a list with just that object
-                var magnet = JsonSerializer.Deserialize<Magnet>(ref reader, options)!;
-                return [magnet];
+                var response = JsonSerializer.Deserialize<T>(ref reader, options)!;
+                return [response];
             }
             case JsonTokenType.Null:
                 // Handle null case
@@ -31,11 +31,11 @@ public class MagnetListConverter : JsonConverter<List<Magnet>>
             case JsonTokenType.True:
             case JsonTokenType.False:
             default:
-                throw new JsonException($"Unexpected token {reader.TokenType} when parsing Magnet list");
+                throw new JsonException($"Unexpected token {reader.TokenType} when parsing T list");
         }
     }
 
-    public override void Write(Utf8JsonWriter writer, List<Magnet>? value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, List<T>? value, JsonSerializerOptions options)
     {
         if (value == null || value.Count == 0)
         {
@@ -52,9 +52,9 @@ public class MagnetListConverter : JsonConverter<List<Magnet>>
         {
             // If there are multiple items, write as array
             writer.WriteStartArray();
-            foreach (var magnet in value)
+            foreach (var v in value)
             {
-                JsonSerializer.Serialize(writer, magnet, options);
+                JsonSerializer.Serialize(writer, v, options);
             }
             writer.WriteEndArray();
         }

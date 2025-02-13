@@ -29,6 +29,7 @@ public class StreamingLink
     public String? Id { get; set; }
 
     [JsonPropertyName("streams")]
+    [JsonConverter(typeof(ListConverter<StreamingLinkStream>))]
     public List<StreamingLinkStream>? Streams { get; set; }
 
     /// <summary>

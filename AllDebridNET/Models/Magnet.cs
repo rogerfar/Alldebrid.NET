@@ -95,6 +95,7 @@ public class Magnet
     public Int64? CompletionDate { get; set; }
 
     [JsonPropertyName("files")]
+    [JsonConverter(typeof(ListConverter<File>))]
     public List<File>? Files { get; set; }
 }
 
@@ -107,6 +108,7 @@ public class File
     public Int64? Size { get; set; }
 
     [JsonPropertyName("e")]
+    [JsonConverter(typeof(ListConverter<File>))]
     public List<File>? SubNodes { get; set; }
 
     [JsonPropertyName("l")]

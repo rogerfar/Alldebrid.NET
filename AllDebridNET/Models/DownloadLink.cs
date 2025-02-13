@@ -38,6 +38,7 @@ public class DownloadLink
     ///     List of alternative links with other resolutions for some video links.
     /// </summary>
     [JsonPropertyName("streams")]
+    [JsonConverter(typeof(ListConverter<DownloadLinkStream>))]
     public List<DownloadLinkStream>? Streams { get; set; }
 
     /// <summary>
