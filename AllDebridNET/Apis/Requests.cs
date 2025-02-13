@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Web;
 
 namespace AllDebridNET;
@@ -9,7 +10,8 @@ internal class Requests(HttpClient httpClient, Store store)
 {
     private static JsonSerializerOptions JsonSerializerSettings => new()
     {
-        PropertyNameCaseInsensitive = true
+        PropertyNameCaseInsensitive = true,
+        NumberHandling = JsonNumberHandling.AllowReadingFromString
     };
 
     private async Task<String?> Request(String url,
