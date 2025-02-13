@@ -1,14 +1,7 @@
 ﻿namespace AllDebridNET;
 
-public class MagnetApi
+public interface IMagnetApi
 {
-    private readonly Requests _requests;
-
-    internal MagnetApi(HttpClient httpClient, Store store)
-    {
-        _requests = new(httpClient, store);
-    }
-
     /// <summary>
     ///     Upload a magnet with its URI or hash.
     /// </summary>
@@ -19,6 +12,92 @@ public class MagnetApi
     ///     A cancellation token that can be used by other objects or threads to receive notice of
     ///     cancellation.
     /// </param>
+    Task<MagnetAddResult?> UploadMagnetAsync(String magnetLink, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Upload torrent files.
+    /// </summary>
+    /// <param name="file">
+    ///     The file as a byte array.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used by other objects or threads to receive notice of
+    ///     cancellation.
+    /// </param>
+    Task<MagnetAddResult?> UploadFileAsync(Byte[] file, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Get the status of current magnets.
+    /// </summary>
+    /// <param name="status">Magnets status filter. Either active, ready, expired or error</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>
+    ///     List of Magnet
+    /// </returns>
+    Task<List<Magnet>> StatusAllAsync(String? status = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Get the status of current magnets.
+    /// </summary>
+    /// <param name="magnetId">
+    ///     Magnet ID.
+    /// </param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>
+    ///     The Magnet or null.
+    /// </returns>
+    Task<Magnet?> StatusAsync(String magnetId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///    The Live Mode allows to only get the new data of the status of current magnets. It is designed to make a "live" panel or monitoring system more performant when consuming the magnet/status endpoint very frequently.
+    ///    It requires a session ID and a counter, and using cache on the API side only the differences between the last state and the current state are sent, greatly reducing the amount of data returned by the API on each call.
+    ///    The client using this mode must keep the current state of the magnets status locally between each call in order to apply the new data on the last state to get the whole current state.
+    ///    A fixed session ID (integer) must be randomly set, and a counter starting at 0 will be used. On the first call (id=123, counter=0) with a new session ID, all the current data will be sent back, with the fullsync property set to true to make it clear, and the next counter to use. On the next call the updated counter is used (id=123, counter=1), and only the differences with the previous state will be send back.
+    ///    If the magnets property returned is empty, then no change happened since the last call. If some changes happened, the magnets array will have some magnet objects (see Status) with its id and the properties changed, like this :
+    ///    { "id": 123456, "downloaded": 258879224, "downloadSpeed": 20587738 }
+    ///    You can them apply those diff to the last state you kept to get the current magnets status state.
+    ///    If you send a counter that is not in sync with the last call response (like sending the same counter twice in a row), then the endpoint will consider your counter invalid and will return a full fullsync reponse with a reseted counter.
+    ///    If you want to see a live implementation of this mode, it is currently in use on the magnet dashboard on Alldebrid.
+    /// </summary>
+    /// <param name="session">
+    ///     Session ID.
+    /// </param>
+    /// <param name="counter">
+    ///     Counter.
+    /// </param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<MagnetStatusLiveResponse> StatusLiveAsync(Int64 session, Int64 counter, CancellationToken cancellationToken = default);
+
+    Task<List<File>> FilesAsync(Int64 magnetId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Delete a magnet.
+    /// </summary>
+    /// <param name="magnetId">Magnet ID.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<String?> DeleteAsync(String magnetId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Restart a failed magnet.
+    /// </summary>
+    /// <param name="magnetId">Magnet ID.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<String?> RestartAsync(String magnetId, CancellationToken cancellationToken = default);
+}
+
+public class MagnetApi : IMagnetApi
+{
+    private readonly Requests _requests;
+
+    internal MagnetApi(HttpClient httpClient, Store store)
+    {
+        _requests = new(httpClient, store);
+    }
+
+    /// <inheritdoc />
     public async Task<MagnetAddResult?> UploadMagnetAsync(String magnetLink, CancellationToken cancellationToken = default)
     {
         var data = new[]
@@ -63,16 +142,7 @@ public class MagnetApi
         return magnetResult;
     }
 
-    /// <summary>
-    ///     Upload torrent files.
-    /// </summary>
-    /// <param name="file">
-    ///     The file as a byte array.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     A cancellation token that can be used by other objects or threads to receive notice of
-    ///     cancellation.
-    /// </param>
+    /// <inheritdoc />
     public async Task<MagnetAddResult?> UploadFileAsync(Byte[] file, CancellationToken cancellationToken = default)
     {
         var result = await _requests.PostFileRequestAsync<MagnetUploadResponse>("magnet/upload/file", file, true, cancellationToken);
@@ -112,14 +182,7 @@ public class MagnetApi
         return fileResult;
     }
 
-    /// <summary>
-    ///     Get the status of current magnets.
-    /// </summary>
-    /// <param name="status">Magnets status filter. Either active, ready, expired or error</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns>
-    ///     List of Magnet
-    /// </returns>
+    /// <inheritdoc />
     public async Task<List<Magnet>> StatusAllAsync(String? status = null, CancellationToken cancellationToken = default)
     {
         var parameters = new Dictionary<String, String>();
@@ -134,16 +197,7 @@ public class MagnetApi
         return result.Magnets ?? [];
     }
 
-    /// <summary>
-    ///     Get the status of current magnets.
-    /// </summary>
-    /// <param name="magnetId">
-    ///     Magnet ID.
-    /// </param>
-    /// <param name="cancellationToken"></param>
-    /// <returns>
-    ///     The Magnet or null.
-    /// </returns>
+    /// <inheritdoc />
     public async Task<Magnet?> StatusAsync(String magnetId, CancellationToken cancellationToken = default)
     {
         var parameters = new Dictionary<String, String>
@@ -158,25 +212,7 @@ public class MagnetApi
         return result.Magnets?.FirstOrDefault();
     }
 
-    /// <summary>
-    ///    The Live Mode allows to only get the new data of the status of current magnets. It is designed to make a "live" panel or monitoring system more performant when consuming the magnet/status endpoint very frequently.
-    ///    It requires a session ID and a counter, and using cache on the API side only the differences between the last state and the current state are sent, greatly reducing the amount of data returned by the API on each call.
-    ///    The client using this mode must keep the current state of the magnets status locally between each call in order to apply the new data on the last state to get the whole current state.
-    ///    A fixed session ID (integer) must be randomly set, and a counter starting at 0 will be used. On the first call (id=123, counter=0) with a new session ID, all the current data will be sent back, with the fullsync property set to true to make it clear, and the next counter to use. On the next call the updated counter is used (id=123, counter=1), and only the differences with the previous state will be send back.
-    ///    If the magnets property returned is empty, then no change happened since the last call. If some changes happened, the magnets array will have some magnet objects (see Status) with its id and the properties changed, like this :
-    ///    { "id": 123456, "downloaded": 258879224, "downloadSpeed": 20587738 }
-    ///    You can them apply those diff to the last state you kept to get the current magnets status state.
-    ///    If you send a counter that is not in sync with the last call response (like sending the same counter twice in a row), then the endpoint will consider your counter invalid and will return a full fullsync reponse with a reseted counter.
-    ///    If you want to see a live implementation of this mode, it is currently in use on the magnet dashboard on Alldebrid.
-    /// </summary>
-    /// <param name="session">
-    ///     Session ID.
-    /// </param>
-    /// <param name="counter">
-    ///     Counter.
-    /// </param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <inheritdoc />
     public async Task<MagnetStatusLiveResponse> StatusLiveAsync(Int64 session, Int64 counter, CancellationToken cancellationToken = default)
     {
         var data = new[]
@@ -201,12 +237,7 @@ public class MagnetApi
         return magnet.Magnets?.FirstOrDefault()?.Files ?? [];
     }
 
-    /// <summary>
-    ///     Delete a magnet.
-    /// </summary>
-    /// <param name="magnetId">Magnet ID.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <inheritdoc />
     public async Task<String?> DeleteAsync(String magnetId, CancellationToken cancellationToken = default)
     {
         var parameters = new Dictionary<String, String>
@@ -221,12 +252,7 @@ public class MagnetApi
         return result.Message;
     }
 
-    /// <summary>
-    ///     Restart a failed magnet.
-    /// </summary>
-    /// <param name="magnetId">Magnet ID.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <inheritdoc />
     public async Task<String?> RestartAsync(String magnetId, CancellationToken cancellationToken = default)
     {
         var parameters = new Dictionary<String, String>

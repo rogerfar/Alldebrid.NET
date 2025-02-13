@@ -1,6 +1,15 @@
 ﻿namespace AllDebridNET;
 
-public class SystemApi
+public interface ISystemApi
+{
+    /// <summary>
+    ///     Ping the service.
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    Task<PingResponse> PingAsync(CancellationToken cancellationToken = default);
+}
+
+public class SystemApi : ISystemApi
 {
     private readonly Requests _requests;
 
@@ -9,10 +18,7 @@ public class SystemApi
         _requests = new(httpClient, store);
     }
 
-    /// <summary>
-    ///     Ping the service.
-    /// </summary>
-    /// <param name="cancellationToken"></param>
+    /// <inheritdoc />
     public async Task<PingResponse> PingAsync(CancellationToken cancellationToken = default)
     {
         return await _requests.GetRequestAsync<PingResponse>("ping", false, null, cancellationToken);
