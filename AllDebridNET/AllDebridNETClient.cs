@@ -1,20 +1,31 @@
 ﻿namespace AllDebridNET;
 
+public interface IAllDebridNETClient
+{
+    IAuthenticationApi Authentication { get; }
+    IHostsApi Hosts { get; }
+    ILinksApi Links { get; }
+    IMagnetApi Magnet { get; }
+    ISystemApi System { get; set; }
+    IUserApi User { get; }
+    IUserLinksApi UserLink { get; set; }
+}
+
 /// <summary>
 ///     The AllDebridNET consumes the alldebrid.com API.
 ///     Documentation about the API can be found here: https://docs.alldebrid.com/
 /// </summary>
-public class AllDebridNETClient
+public class AllDebridNETClient : IAllDebridNETClient
 {
     private readonly Store _store = new();
 
-    public AuthenticationApi Authentication { get; }
-    public HostsApi Hosts { get; }
-    public LinksApi Links { get; }
-    public MagnetApi Magnet { get; }
-    public SystemApi System { get; set; }
-    public UserApi User { get; }
-    public UserLinksApi UserLink { get; set; }
+    public IAuthenticationApi Authentication { get; }
+    public IHostsApi Hosts { get; }
+    public ILinksApi Links { get; }
+    public IMagnetApi Magnet { get; }
+    public ISystemApi System { get; set; }
+    public IUserApi User { get; }
+    public IUserLinksApi UserLink { get; set; }
 
     /// <summary>
     ///     Initialize the AllDebridNET API.
@@ -44,12 +55,12 @@ public class AllDebridNETClient
         _store.Agent = agent;
         _store.ApiKey = apiKey;
 
-        Authentication = new(client, _store);
-        Hosts = new(client, _store);
-        Links = new(client, _store);
-        Magnet = new(client, _store);
-        System = new(client, _store);
-        User = new(client, _store);
-        UserLink = new(client, _store);
+        Authentication = new AuthenticationApi(client, _store);
+        Hosts = new HostsApi(client, _store);
+        Links = new LinksApi(client, _store);
+        Magnet = new MagnetApi(client, _store);
+        System = new SystemApi(client, _store);
+        User = new UserApi(client, _store);
+        UserLink = new UserLinksApi(client, _store);
     }
 }
