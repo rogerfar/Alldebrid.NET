@@ -1,7 +1,7 @@
 ﻿namespace AllDebridNET;
 
 /// <summary>
-///     The AllDebridNET consumed the alldebrid.com API.
+///     The AllDebridNET consumes the alldebrid.com API.
 ///     Documentation about the API can be found here: https://docs.alldebrid.com/
 /// </summary>
 public class AllDebridNETClient
